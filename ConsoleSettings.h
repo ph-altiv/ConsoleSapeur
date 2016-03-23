@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ConsoleSettings
+namespace cs
 {
 	void HideCursor();
 	void ShowCursor();

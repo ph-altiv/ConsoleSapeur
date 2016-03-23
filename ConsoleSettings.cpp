@@ -3,7 +3,7 @@
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
-void ConsoleSettings::HideCursor()
+void cs::HideCursor()
 {
 	CONSOLE_CURSOR_INFO curInfo;
 	GetConsoleCursorInfo(hConsole, &curInfo);
@@ -11,7 +11,7 @@ void ConsoleSettings::HideCursor()
 	SetConsoleCursorInfo(hConsole, &curInfo);
 }
 
-void ConsoleSettings::ShowCursor()
+void cs::ShowCursor()
 {
 	CONSOLE_CURSOR_INFO curInfo;
 	GetConsoleCursorInfo(hConsole, &curInfo);
@@ -19,7 +19,7 @@ void ConsoleSettings::ShowCursor()
 	SetConsoleCursorInfo(hConsole, &curInfo);
 }
 
-void ConsoleSettings::SetTextColor(const unsigned char& color)
+void cs::SetTextColor(const unsigned char& color)
 {
 	SetConsoleTextAttribute(hConsole, (WORD&)color);
 }
