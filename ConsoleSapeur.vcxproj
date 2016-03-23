@@ -148,11 +148,13 @@
   <ItemGroup>
     <ClCompile Include="Cells.cpp" />
     <ClCompile Include="ConsoleSettings.cpp" />
+    <ClCompile Include="Field.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cells.h" />
     <ClInclude Include="ConsoleSettings.h" />
+    <ClInclude Include="Field.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
