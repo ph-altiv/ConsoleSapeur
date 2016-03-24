@@ -94,3 +94,13 @@ cells::CellTypeName field::Field::Show(int x, int y) const
 	int ind = CoordToIndex(x, y);
 	return (gamefield[ind] = fieldcells[ind]);
 }
+
+int field::Field::Height() const
+{
+	return height;
+}
+
+int field::Field::Width() const
+{
+	return width;
+}
