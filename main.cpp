@@ -40,17 +40,27 @@ inline void DrawField()
 	}
 }
 
-inline void Control(const int& key)
+bool Control()
 {
 	static int x = 0, y = 0;
 	static const int
 		mx = (field::Field.Width() - 1),
 		my = (field::Field.Height() - 1);
-	switch (key)
+	switch (int key = _getch())
 	{
 	case 13: // enter
-		field::Field.Show(x, y);
+	{
+		bool b = field::Field.Show(x, y);
 		DrawField();
+		if (!b)
+		{
+			while (_getch() != 27);
+			return false;
+		}
+	}
+		break;
+	case 27: // esc
+		return false;
 		break;
 	case 32: // space
 		break;
@@ -68,14 +78,13 @@ inline void Control(const int& key)
 		break;
 	}
 	ActivateCell(x, y);
+	return true;
 }
 
 int main() {
 	cs::HideCursor();
-	int key;
 	DrawField();
 	ActivateCell(0, 0);
-	while ((key = _getch()) != 27)
-		Control(key);
+	while (Control());
 	return 0;
 }

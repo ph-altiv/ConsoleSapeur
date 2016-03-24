@@ -84,31 +84,56 @@ field::Field::Field()
 	fillField();
 }
 
-cells::CellTypeName field::Field::operator() (int x, int y) const
+cells::CellTypeName field::Field::operator() (const int& x, const int& y) const
 {
 	return gamefield[CoordToIndex(x, y)];
 }
 
-cells::CellTypeName field::Field::Show(int x, int y) const
+void ZeroShow(const int& x, const int& y)
 {
 	if (x < 0 || y < 0 || x >= width || y >= height)
-		return cells::HIDDEN_CELL;
+		return;
+	int ind = CoordToIndex(x, y);
+	if (gamefield[ind] != cells::HIDDEN_CELL) return;
+	gamefield[ind] = fieldcells[ind];
+	if (fieldcells[ind] != cells::ZERO_CELL) return;
+	ZeroShow(x - 1, y - 1);
+	ZeroShow(x - 1, y);
+	ZeroShow(x - 1, y + 1);
+	ZeroShow(x, y - 1);
+	ZeroShow(x, y + 1);
+	ZeroShow(x + 1, y - 1);
+	ZeroShow(x + 1, y);
+	ZeroShow(x + 1, y + 1);
+}
+
+inline void MinesShow()
+{
+	for (int i = 0; i < vecsize; i++)
+		if (fieldcells[i] == cells::MINED_CELL)
+			gamefield[i] = cells::MINED_CELL;
+}
+
+bool field::Field::Show(const int& x, const int& y) const
+{
+	if (x < 0 || y < 0 || x >= width || y >= height)
+		return true;
 	int ind = CoordToIndex(x, y);
 	if (gamefield[ind] != cells::HIDDEN_CELL)
-		return gamefield[ind];
-	gamefield[ind] = fieldcells[ind];
-	if (gamefield[ind] == cells::ZERO_CELL)
+		return true;
+	switch ((int)fieldcells[ind])
 	{
-		this->Show(x - 1, y - 1);
-		this->Show(x - 1, y);
-		this->Show(x - 1, y + 1);
-		this->Show(x, y - 1);
-		this->Show(x, y + 1);
-		this->Show(x + 1, y - 1);
-		this->Show(x + 1, y);
-		this->Show(x + 1, y + 1);
+	case (int)cells::ZERO_CELL:
+		ZeroShow(x, y);
+		break;
+	case (int)cells::MINED_CELL:
+		MinesShow();
+		return false;
+		break;
+	default:
+		gamefield[ind] = fieldcells[ind];
 	}
-	return gamefield[ind];
+	return true;
 }
 
 int field::Field::Height() const

@@ -7,8 +7,8 @@ namespace field
 	{
 	public:
 		Field();
-		cells::CellTypeName operator() (int x, int y) const;
-		cells::CellTypeName Show(int x, int y) const;
+		cells::CellTypeName operator() (const int& x, const int& y) const;
+		bool Show(const int& x, const int& y) const;
 		int Height() const;
 		int Width() const;
 	}
