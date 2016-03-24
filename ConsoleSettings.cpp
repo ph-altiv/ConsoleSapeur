@@ -1,7 +1,21 @@
 #include "ConsoleSettings.h"
+#include <fstream>
 #include <Windows.h>
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+struct StartCursorPosition
+{
+	int x0, y0;
+	StartCursorPosition();
+} static const StartCursorPosition;
+
+StartCursorPosition::StartCursorPosition()
+{
+	std::ifstream f("Position");
+	f >> x0 >> y0;
+	f.close();
+}
 
 void cs::HideCursor()
 {
@@ -26,5 +40,5 @@ void cs::SetTextColor(const unsigned char& color)
 
 void cs::CursorPos(const int& x, const int& y)
 {
-	SetConsoleCursorPosition(hConsole, COORD{ (SHORT)x, (SHORT)y });
+	SetConsoleCursorPosition(hConsole, COORD{ (SHORT)(x + StartCursorPosition.x0), (SHORT)(y + StartCursorPosition.y0) });
 }
