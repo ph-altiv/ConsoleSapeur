@@ -23,3 +23,8 @@ void cs::SetTextColor(const unsigned char& color)
 {
 	SetConsoleTextAttribute(hConsole, (WORD&)color);
 }
+
+void cs::CursorPos(const int& x, const int& y)
+{
+	SetConsoleCursorPosition(hConsole, COORD{ (SHORT)x, (SHORT)y });
+}
