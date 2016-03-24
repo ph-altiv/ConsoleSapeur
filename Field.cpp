@@ -13,7 +13,7 @@ int height, width, mines, vecsize, hidden;
 std::vector<cells::CellTypeName> fieldcells;
 std::vector<cells::CellTypeName> gamefield;
 
-inline void upcell(const int& ind)
+void upcell(const int& ind)
 {
 	if (ind >= 0 && ind < vecsize && fieldcells[ind] != cells::MINED_CELL)
 		fieldcells[ind] = (cells::CellTypeName)(fieldcells[ind] + 1);
@@ -26,12 +26,11 @@ inline void fillField()
 	for (int i = 0; i < mines; i++)
 	{
 		subind = rand() % empty--;
-		int j = 0;
-		while (j < vecsize && subind > 0)
+		int j = -1;
+		while(subind >= 0 && ++j < vecsize)
 		{
 			if (fieldcells[j] != cells::MINED_CELL)
 				subind--;
-			j++;
 		}
 		fieldcells[j] = cells::MINED_CELL;
 		upcell(j - width);
@@ -137,6 +136,19 @@ bool field::Field::Show(const int& x, const int& y) const
 		hidden--;
 	}
 	return (mines == hidden) ? false : true;
+}
+
+void field::Field::Mark(const int& x, const int& y) const
+{
+	int ind = CoordToIndex(x, y);
+	switch ((int)gamefield[ind])
+	{
+	case (int)cells::HIDDEN_CELL:
+		gamefield[ind] = cells::MARKED_CELL;
+		break;
+	case (int)cells::MARKED_CELL:
+		gamefield[ind] = cells::HIDDEN_CELL;
+	}
 }
 
 int field::Field::Height() const

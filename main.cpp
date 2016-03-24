@@ -63,6 +63,7 @@ bool Control()
 		return false;
 		break;
 	case 32: // space
+		field::Field.Mark(x, y);
 		break;
 	case 72: // up
 		y -= (y > 0) ? 1 : 0;

@@ -9,6 +9,7 @@ namespace field
 		Field();
 		cells::CellTypeName operator() (const int& x, const int& y) const;
 		bool Show(const int& x, const int& y) const;
+		void Mark(const int& x, const int& y) const;
 		int Height() const;
 		int Width() const;
 	}
