@@ -22,7 +22,7 @@ namespace cells
 
 	struct CellParameters
 	{
-		unsigned char color;
+		unsigned short color;
 		char symbol;
 	};
 	

@@ -23,7 +23,7 @@ cells::GetCellParameters::GetCellParameters()
 		c = ' ';
 		sstr >> a >> b >> c;
 		if (a >= 0 && a < CELLTYPENAME_QUANTITY)
-			mTypeParameters[(cells::CellTypeName)a] = cells::CellParameters{(unsigned char)b, c};
+			mTypeParameters[(cells::CellTypeName)a] = cells::CellParameters{(unsigned short)b, c};
 		sstr.clear();
 	}
 	f.close();

@@ -33,7 +33,7 @@ void cs::ShowCursor()
 	SetConsoleCursorInfo(hConsole, &curInfo);
 }
 
-void cs::SetTextColor(const unsigned char& color)
+void cs::SetTextColor(const unsigned short& color)
 {
 	SetConsoleTextAttribute(hConsole, (WORD&)color);
 }
