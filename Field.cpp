@@ -77,7 +77,7 @@ field::Field::Field()
 		}
 		sstr.clear();
 	}
-	if (height <= 0 || width <= 0 || mines < 0 || height > 50 || width > 50 || mines > (vecsize = height * width))
+	if (height <= 0 || width <= 0 || mines < 0 || height > 25 || width > 100 || mines > (vecsize = height * width))
 		throw std::exception("Error: invalid file 'FieldSettings'");
 	fieldcells.resize(vecsize, cells::ZERO_CELL);
 	gamefield.resize(vecsize, cells::HIDDEN_CELL);
@@ -91,8 +91,24 @@ cells::CellTypeName field::Field::operator() (int x, int y) const
 
 cells::CellTypeName field::Field::Show(int x, int y) const
 {
+	if (x < 0 || y < 0 || x >= width || y >= height)
+		return cells::HIDDEN_CELL;
 	int ind = CoordToIndex(x, y);
-	return (gamefield[ind] = fieldcells[ind]);
+	if (gamefield[ind] != cells::HIDDEN_CELL)
+		return gamefield[ind];
+	gamefield[ind] = fieldcells[ind];
+	if (gamefield[ind] == cells::ZERO_CELL)
+	{
+		this->Show(x - 1, y - 1);
+		this->Show(x - 1, y);
+		this->Show(x - 1, y + 1);
+		this->Show(x, y - 1);
+		this->Show(x, y + 1);
+		this->Show(x + 1, y - 1);
+		this->Show(x + 1, y);
+		this->Show(x + 1, y + 1);
+	}
+	return gamefield[ind];
 }
 
 int field::Field::Height() const
