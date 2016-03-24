@@ -21,8 +21,8 @@ inline void upcell(const int& ind)
 
 inline void fillField()
 {
-	srand(time(0));
-	int subind, ind, empty = vecsize;
+	srand((unsigned char)time(0));
+	int subind, empty = vecsize;
 	for (int i = 0; i < mines; i++)
 	{
 		subind = rand() % empty--;
