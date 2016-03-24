@@ -7,7 +7,7 @@
 #include <map>
 #include <ctime>
 
-int height, width, mines, vecsize;
+int height, width, mines, vecsize, hidden;
 #define CoordToIndex(x, y) (x + y*width)
 
 std::vector<cells::CellTypeName> fieldcells;
@@ -81,6 +81,7 @@ field::Field::Field()
 		throw std::exception("Error: invalid file 'FieldSettings'");
 	fieldcells.resize(vecsize, cells::ZERO_CELL);
 	gamefield.resize(vecsize, cells::HIDDEN_CELL);
+	hidden = vecsize;
 	fillField();
 }
 
@@ -96,6 +97,7 @@ void ZeroShow(const int& x, const int& y)
 	int ind = CoordToIndex(x, y);
 	if (gamefield[ind] != cells::HIDDEN_CELL) return;
 	gamefield[ind] = fieldcells[ind];
+	hidden--;
 	if (fieldcells[ind] != cells::ZERO_CELL) return;
 	ZeroShow(x - 1, y - 1);
 	ZeroShow(x - 1, y);
@@ -132,8 +134,9 @@ bool field::Field::Show(const int& x, const int& y) const
 		break;
 	default:
 		gamefield[ind] = fieldcells[ind];
+		hidden--;
 	}
-	return true;
+	return (mines == hidden) ? false : true;
 }
 
 int field::Field::Height() const
